@@ -1,0 +1,24 @@
+// dbConfig.js
+const mysql = require('mysql');
+
+const {
+  DB_HOST,
+  DB_PORT = 3306,
+  DB_USER,
+  DB_PASSWORD,
+  DB_NAME,
+  DB_SSL = 'false',
+  DB_CONN_LIMIT = 10,
+} = process.env;
+
+const pool = mysql.createPool({
+  host: DB_HOST || '127.0.0.1',
+  port: Number (DB_PORT),
+  user: DB_USER || 'root',
+  password: DB_PASSWORD || '',
+  database: DB_NAME || 'dbs',
+  connectionLimit: Number(DB_CONN_LIMIT),
+  ssl: DB_SSL === 'true' ? { rejectUnauthorized: false } : undefined,
+});
+
+module.exports = pool;

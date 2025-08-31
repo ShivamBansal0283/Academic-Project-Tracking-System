@@ -1,0 +1,24 @@
+/* Information.css */
+
+.information {
+  padding: 20px;
+}
+
+.information h2 {
+  color: #333;
+  font-size: 24px;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5); /* Text shadow effect */
+}
+
+.information ul {
+  list-style: none; /* Remove bullet points */
+  padding: 0;
+}
+
+.information div {
+  padding: 10px;
+  border: 1px solid #000; /* Black border for list items */
+  position: relative; /* Required for positioning pseudo-elements */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Box shadow effect */
+}

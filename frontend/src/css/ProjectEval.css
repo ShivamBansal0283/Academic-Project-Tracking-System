@@ -1,0 +1,68 @@
+/* NextPage.css */
+
+.next-page {
+    padding: 20px;
+    border-radius: 20px; /* Curved edges */
+    background-color: #f0f0f0;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.3s ease; /* Transition on background color change */
+}
+
+.next-page h2 {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-shadow: 4px 4px 6px rgba(0, 0, 0, 0.4);
+}
+
+.next-page h3 {
+    color: #333;
+    font-size: 20px;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.next-page form {
+    margin-bottom: 20px;
+}
+
+.next-page label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.next-page input[type="number"],
+.next-page textarea {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 10px; /* Curved edges */
+    border: 1px solid #ccc;
+    transition: border-color 0.3s ease; /* Transition on border color change */
+}
+
+.next-page input[type="number"]:focus,
+.next-page textarea:focus {
+    border-color: #555; /* Border color on focus */
+}
+
+.next-page button[type="submit"] {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #555;
+    color: white;
+    border: none;
+    border-radius: 20px; /* Curved edges */
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Transition on background color change */
+}
+
+.next-page button[type="submit"]:hover {
+    background-color: #444; /* Darker background color on hover */
+}
+
+.next-page p {
+    color: #333;
+    font-size: 16px;
+    margin-top: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+}
