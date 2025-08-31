@@ -1,0 +1,44 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.log
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# Build outputs
+dist/
+build/
+coverage/
+.vite/
+.next/
+out/
+
+# TypeScript
+*.tsbuildinfo
+
+# Editors
+.vscode/
+.idea/
+*.swp
+
+# Backend runtime files
+backend/uploads/
+!backend/uploads/.gitkeep
+
+# Prisma (common SQLite patterns; keep if you’re NOT using SQLite)
+prisma/*.db
+prisma/*.sqlite
+prisma/*.db-journal
+backend/prisma/*.db
+backend/prisma/*.sqlite
+backend/prisma/*.db-journal
