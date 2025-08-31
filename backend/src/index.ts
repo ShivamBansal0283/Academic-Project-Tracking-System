@@ -14,7 +14,7 @@ import tasks from "./routes/tasks";
 import { teams } from "./routes/teams";
 import { authOptional } from "./middleware/auth";
 import users from "./routes/users";
-import { UPLOADS_DIR } from "./config/paths";   // ⬅️ add
+import { UPLOADS_DIR } from "./config/path";   // ⬅️ add
 
 dotenv.config();
 const app = express();
