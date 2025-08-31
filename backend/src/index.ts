@@ -112,7 +112,7 @@ app.use(morgan("dev"));
 app.use(authOptional);
 
 // ---- Static uploads (configurable + persistent-disk friendly)
-const uploadsDir = process.env.UPLOADS_DIR || path.join(process.cwd(), "uploads");
+const uploadsDir = process.env.UPLOADS_DIR || path.join("/tmp", "uploads");
 if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
 
 app.use(

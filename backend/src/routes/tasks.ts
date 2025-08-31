@@ -22,7 +22,7 @@ const tasks = Router();
 tasks.use(authOptional);
 
 /* ------------------------ uploads setup ------------------------ */
-const uploadsDir = path.join(process.cwd(), "uploads");
+const uploadsDir = path.join("/tmp", "uploads");
 if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
 
 const storage = multer.diskStorage({
