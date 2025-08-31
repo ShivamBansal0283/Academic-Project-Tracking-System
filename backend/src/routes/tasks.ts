@@ -15,6 +15,7 @@ import path from "path";
 import fs from "fs";
 import { z } from "zod";
 import { updateProjectLifecycle } from "../utils/projectLifecycle";
+import { UPLOADS_DIR } from "../config/paths";   // ⬅️ add
 
 const tasks = Router();
 
@@ -22,11 +23,11 @@ const tasks = Router();
 tasks.use(authOptional);
 
 /* ------------------------ uploads setup ------------------------ */
-const uploadsDir = path.join("/tmp", "uploads");
-if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
+/* -------- uploads (use one dir everywhere) -------- */
+if (!fs.existsSync(UPLOADS_DIR)) fs.mkdirSync(UPLOADS_DIR, { recursive: true });
 
 const storage = multer.diskStorage({
-  destination: (_req, _file, cb) => cb(null, uploadsDir),
+  destination: (_req, _file, cb) => cb(null, UPLOADS_DIR),
   filename: (_req, file, cb) => {
     const unique = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
     const ext = path.extname(file.originalname);
@@ -35,14 +36,13 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-/* ------------------------ helpers ------------------------ */
 function toPublicFiles(files: Express.Multer.File[] | undefined) {
   return (files ?? []).map((f) => ({
     originalName: f.originalname,
     filename: f.filename,
     mime: f.mimetype,
     size: f.size,
-    url: `/uploads/${f.filename}`, // ensure server serves /uploads statically
+    url: `/uploads/${f.filename}`, // served by index.ts from UPLOADS_DIR
   }));
 }
 
@@ -552,6 +552,7 @@ tasks.post(
 );
 
 
+/* ---- Download raw file by id ---- */
 tasks.get("/files/:id/download", async (req: any, res) => {
   const f = await prisma.file.findUnique({
     where: { id: req.params.id },
@@ -559,14 +560,10 @@ tasks.get("/files/:id/download", async (req: any, res) => {
   });
   if (!f) return res.status(404).json({ error: "File not found" });
 
-  const abs = path.join(process.cwd(), "uploads", f.filename);
+  const abs = path.join(UPLOADS_DIR, f.filename);  // ⬅️ use the same dir
   if (!fs.existsSync(abs)) return res.status(404).json({ error: "File missing on disk" });
 
-  res.download(abs, f.originalName || f.filename); // Content-Disposition: attachment
+  res.download(abs, f.originalName || f.filename);
 });
-
-
-
-
 
 export default tasks;
