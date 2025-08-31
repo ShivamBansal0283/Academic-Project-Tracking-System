@@ -15,7 +15,7 @@ import path from "path";
 import fs from "fs";
 import { z } from "zod";
 import { updateProjectLifecycle } from "../utils/projectLifecycle";
-import { UPLOADS_DIR } from "../config/paths";   // ⬅️ add
+import { UPLOADS_DIR } from "../config/path";   // ⬅️ add
 
 const tasks = Router();
 
