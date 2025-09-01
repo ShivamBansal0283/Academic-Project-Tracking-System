@@ -87,7 +87,7 @@ const Index = () => {
             </Badge>
             <h1 className="text-5xl font-bold tracking-tight">
               Transform Your
-              <span className="gradient-hero bg-clip-text text-transparent"> Academic Projects</span>
+               Academic Projects
             </h1>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
               Streamline project management, enhance team collaboration, and achieve academic success
@@ -172,7 +172,7 @@ const Index = () => {
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </Link>
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10">
+            <Button size="lg" variant="outline" className="border-white text-black hover:bg-white/10">
               Learn More
             </Button>
           </div>
