@@ -14,42 +14,66 @@ import tasks from "./routes/tasks";
 import { teams } from "./routes/teams";
 import { authOptional } from "./middleware/auth";
 import users from "./routes/users";
-import { UPLOADS_DIR } from "./config/path";   // ⬅️ add
+import { UPLOADS_DIR } from "./config/path";
 
 dotenv.config();
 const app = express();
 
 app.set("trust proxy", 1);
 
-// CORS (comma-separated ORIGIN)
-const originEnv = process.env.ORIGIN || "http://localhost:5173,http://localhost:8080";
-const allowedOrigins = originEnv.split(",").map(s => s.trim());
+/* ---------------- CORS with wildcard support ---------------- */
+const originEnv =
+  process.env.ORIGIN || "http://localhost:5173,http://localhost:8080";
+const allowList = originEnv
+  .split(",")
+  .map(s => s.trim())
+  .filter(Boolean);
+
+function isAllowedOrigin(reqOrigin?: string) {
+  if (!reqOrigin) return true; // non-browser or same-origin
+  let host = "";
+  try {
+    host = new URL(reqOrigin).host; // e.g. apts-two.vercel.app
+  } catch {
+    return false;
+  }
+  return allowList.some(pat => {
+    if (pat === reqOrigin) return true; // exact match like https://myapp.com
+    if (pat.startsWith("*.")) {
+      // wildcard like *.vercel.app
+      const domain = pat.slice(2);
+      return host === domain || host.endsWith("." + domain);
+    }
+    // also allow raw host patterns (rare): e.g., vercel.app
+    try {
+      const u = new URL(pat);
+      return u.host === host;
+    } catch {
+      return host === pat || host.endsWith("." + pat);
+    }
+  });
+}
+
 app.use(
   cors({
-    origin: (reqOrigin, cb) => {
-      if (!reqOrigin) return cb(null, true);
-      if (allowedOrigins.includes(reqOrigin)) return cb(null, true);
-      return cb(new Error("Not allowed by CORS"));
-    },
+    origin: (reqOrigin, cb) =>
+      isAllowedOrigin(reqOrigin) ? cb(null, true) : cb(new Error("Not allowed by CORS")),
     credentials: true,
   })
 );
 
-// Helmet: allow cross-origin resource policy for /uploads
+/* -------------- Security / parsing / logging ---------------- */
 app.use(helmet({ crossOriginResourcePolicy: { policy: "cross-origin" } }));
-
 app.use(express.json({ limit: "2mb" }));
 app.use(cookieParser());
 app.use(morgan("dev"));
 app.use(authOptional);
 
-// Ensure uploads dir exists
+/* ------------------- Static uploads dir --------------------- */
 if (!fs.existsSync(UPLOADS_DIR)) fs.mkdirSync(UPLOADS_DIR, { recursive: true });
-
-// Serve files from the same dir the uploader writes to
 app.use("/uploads", express.static(UPLOADS_DIR, { index: false }));
 
-// Routes
+/* ------------------------- Routes --------------------------- */
 app.use("/api/users", users);
 app.get("/health", (_req, res) => res.json({ status: "ok" }));
 app.use("/auth", authRoutes);
@@ -58,7 +82,7 @@ app.use("/api/courses", courses);
 app.use("/api", tasks); // tasks, submissions, files
 app.use("/api/teams", teams);
 
-// Basic error handler
+/* -------------------- Error handler ------------------------- */
 app.use((err: any, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
   if (err?.message === "Not allowed by CORS") {
     return res.status(403).json({ error: "CORS: origin not allowed" });
