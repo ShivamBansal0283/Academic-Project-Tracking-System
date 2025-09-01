@@ -265,7 +265,7 @@ const Header = ({ onMenuClick, userRole, userName }: HeaderProps) => {
       // ignore; still clear client state
     } finally {
       qc.clear();
-      window.location.href = "/login";
+      window.location.href = "/";
     }
   }
 
