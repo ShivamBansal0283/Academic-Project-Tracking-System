@@ -189,7 +189,7 @@ import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { me } from "@/api/auth";
-
+const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:4000";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -258,14 +258,28 @@ const Header = ({ onMenuClick, userRole, userName }: HeaderProps) => {
     navigate(settingsPath);
   }
 
+  // near top of file:
+  const [signingOut, setSigningOut] = React.useState(false);
+
   async function handleSignOut() {
+    if (signingOut) return;
+    setSigningOut(true);
     try {
-      await fetch("/api/auth/logout", { method: "POST", credentials: "include" });
+      await fetch(`${API_BASE}/auth/logout`, {
+        method: "POST",
+        credentials: "include",
+        mode: "cors",
+      });
     } catch {
-      // ignore; still clear client state
+      // ignore network errors – we still nuke client state
     } finally {
+      // Clear client cache and HARD redirect
       qc.clear();
-      window.location.href = "/";
+      window.location.replace("/"); // go to home
+      // tiny failsafe:
+      setTimeout(() => {
+        if (location.pathname !== "/") window.location.assign("/");
+      }, 150);
     }
   }
 
@@ -339,7 +353,10 @@ const Header = ({ onMenuClick, userRole, userName }: HeaderProps) => {
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem
-                onClick={handleSignOut}
+                onSelect={(e) => {
+                  e.preventDefault();
+                  void handleSignOut();
+                }}
                 className="text-destructive focus:text-destructive"
               >
                 <LogOut className="h-4 w-4 mr-2" />

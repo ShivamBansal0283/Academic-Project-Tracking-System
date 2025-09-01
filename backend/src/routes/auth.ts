@@ -51,8 +51,14 @@ function setTokens(res: any, accessToken: string, refreshToken: string) {
 }
 
 function clearTokens(res: any) {
-  res.clearCookie(ACCESS_NAME, { path: "/" });
-  res.clearCookie(REFRESH_NAME, { path: "/" });
+  const base = {
+    path: "/",
+    sameSite: "none" as const,
+    secure: COOKIE_SECURE,
+    // domain: "<your domain>" // only if you set one when creating cookies
+  };
+  res.clearCookie(ACCESS_NAME, base);
+  res.clearCookie(REFRESH_NAME, base);
 }
 
 const LoginSchema = z.object({
