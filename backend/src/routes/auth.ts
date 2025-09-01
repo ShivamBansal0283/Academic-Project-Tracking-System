@@ -44,7 +44,7 @@ function setTokens(res: any, accessToken: string, refreshToken: string) {
   res.cookie(REFRESH_NAME, refreshToken, {
     httpOnly: true,
     secure: COOKIE_SECURE,
-    sameSite: "lax",
+    sameSite: "none",
     path: "/",
     maxAge: REFRESH_TTL_SEC * 1000,
   });
