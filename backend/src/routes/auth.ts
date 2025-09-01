@@ -28,11 +28,16 @@ const ACCESS_SECRET = process.env.JWT_ACCESS_SECRET || "access-dev";
 const REFRESH_SECRET = process.env.JWT_REFRESH_SECRET || "refresh-dev";
 const COOKIE_SECURE = (process.env.COOKIE_SECURE || "false") === "true";
 
+const COOKIE_SAMESITE = (process.env.COOKIE_SAMESITE || "none") as
+  | "lax"
+  | "strict"
+  | "none";
+
 function setTokens(res: any, accessToken: string, refreshToken: string) {
   res.cookie(ACCESS_NAME, accessToken, {
     httpOnly: true,
     secure: COOKIE_SECURE,
-    sameSite: "lax",
+    sameSite: "none",
     path: "/",
     maxAge: ACCESS_TTL_SEC * 1000,
   });
