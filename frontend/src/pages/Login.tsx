@@ -76,7 +76,7 @@ export default function Login() {
           </form>
         </CardContent>
         <CardFooter className="text-xs text-muted-foreground">
-          Demo accounts (if seeded): student@example.com / student123, teacher@example.com / teacher123
+          Demo accounts : s1@univ.edu / student123, rao@univ.edu / teacher123
         </CardFooter>
       </Card>
     </div>
