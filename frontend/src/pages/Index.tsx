@@ -1,5 +1,6 @@
 
 import Layout from "@/components/layout/Layout";
+import Logo from "@/assets/logo.png";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -62,9 +63,11 @@ const Index = () => {
       <header className="bg-card border-b border-border px-6 py-4">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 gradient-hero rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm">AP</span>
-            </div>
+            <img
+  src={Logo}
+  alt="AcademiTrack logo"
+  className="h-8 w-8 rounded-lg object-contain"
+/>
             <h1 className="text-xl font-semibold">AcademiTrack</h1>
           </div>
           <div className="flex gap-4">
@@ -183,16 +186,18 @@ const Index = () => {
       <footer className="py-12 px-6 bg-card border-t border-border">
         <div className="max-w-7xl mx-auto text-center space-y-4">
           <div className="flex items-center justify-center gap-2">
-            <div className="w-6 h-6 gradient-hero rounded flex items-center justify-center">
-              <span className="text-white font-bold text-xs">AP</span>
-            </div>
+            <img
+  src={Logo}
+  alt="AcademiTrack logo"
+  className="h-8 w-8 rounded-lg object-contain"
+/>
             <span className="font-semibold">AcademiTrack</span>
           </div>
           <p className="text-muted-foreground">
             Empowering academic excellence through innovative project management.
           </p>
           <p className="text-sm text-muted-foreground">
-            © 2024 AcademiTrack. All rights reserved.
+            © 2024 AcademiTrack by Shivam Bansal. All rights reserved.
           </p>
         </div>
       </footer>
