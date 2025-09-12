@@ -187,6 +187,7 @@
 
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
+import Logo from "@/assets/logo.png";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { me } from "@/api/auth";
 const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:4000";
@@ -292,9 +293,11 @@ const Header = ({ onMenuClick, userRole, userName }: HeaderProps) => {
           </Button>
         )}
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 gradient-hero rounded-lg flex items-center justify-center">
-            <span className="text-white font-bold text-sm">AP</span>
-          </div>
+          <img
+  src={Logo}
+  alt="AcademiTrack logo"
+  className="h-8 w-8 rounded-lg object-contain"
+/>
           <h1 className="text-xl font-semibold text-foreground">AcademiTrack</h1>
         </div>
       </div>
